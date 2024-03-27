@@ -4,22 +4,28 @@ import viteLogo from "/vite.svg";
 
 function App() {
   const [text, setText] = useState("copy");
-  const [length, SetLength] = useState(6);
+  const [length, SetLength] = useState(12);
   const [number, setNumber] = useState(true);
   const [symbols, setSymbols] = useState(true);
+  const [generatedPassword, setGenertedPassword] = useState();
 
   function password() {
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let num = "1234567890";
     let Characters = "!@#$%&";
-    let pass = "";
 
     if (number) str += num;
     if (symbols) str += Characters;
-
-    console.log("Password", str);
+    let pass = "";
+    for (let i = 0; i < length; i++) {
+      const alphabets = Math.floor(Math.random() * str.length + 1);
+      pass += str.charAt(alphabets);
+    }
+    setGenertedPassword(pass);
   }
-
+  useEffect(() => {
+    password();
+  }, [length, symbols, number]);
   const copyText = () => {
     setText("copied");
   };
@@ -30,7 +36,7 @@ function App() {
         <div className="card w-auto h-auto bg-gradient-to-r from-blue-500 via-blue-500 to-indigo-500 text-neutral-content ">
           <div className="card-body items-center text-center">
             <div className="flex items-center justify-center gap-2">
-              <label className="input input-bordered flex items-center gap-2">
+              <label className="input input-bordered flex items-center gap-2 text-black">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -43,17 +49,15 @@ function App() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <input type="password" className="grow" value="password" />
+                <input type="text" className="grow" value={generatedPassword} />
               </label>
-              <button className="btn btn-primary" onClick={password}>
-                {text}
-              </button>
+              <button className="btn btn-primary">{text}</button>
             </div>
             <div className="card-actions justify-end p-4">
               <div className="flex items-center justify-center gap-2 mt-2">
                 <input
                   type="range"
-                  min={6}
+                  min={number}
                   max="100"
                   value={length}
                   onChange={(e) => SetLength(e.target.value)}
