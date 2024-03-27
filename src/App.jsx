@@ -1,6 +1,4 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 
 function App() {
   const [text, setText] = useState("Copy");
@@ -8,6 +6,7 @@ function App() {
   const [number, setNumber] = useState(true);
   const [symbols, setSymbols] = useState(true);
   const [generatedPassword, setGenertedPassword] = useState();
+  const [hide, setVisibility] = useState("hidden");
   const textRef = useRef();
 
   const password = useCallback(() => {
@@ -24,12 +23,16 @@ function App() {
     }
     setGenertedPassword(pass);
   }, [length, number, symbols]);
+
   useEffect(() => {
     password();
     setText("Copy");
+    setVisibility("hidden");
   }, [length, symbols, number]);
+
   const copyText = () => {
     setText("copied");
+    setVisibility("");
     textRef.current.select();
     window.navigator.clipboard.writeText(generatedPassword);
   };
@@ -38,6 +41,11 @@ function App() {
     <>
       <div className="bg-gradient-to-l from-gray-200 via-fuchsia-200 to-stone-100 h-screen w-screen flex items-center justify-center">
         <div className="card w-auto h-auto bg-gradient-to-r from-blue-500 via-blue-500 to-indigo-500 text-neutral-content ">
+          <div className={`stats shadow ${hide} `}>
+            <div className="stat text-center">
+              <div className="stat-value text-xl">Password Copied</div>
+            </div>
+          </div>
           <div className="card-body items-center text-center">
             <div className="flex items-center justify-center gap-2">
               <label className="input input-bordered flex items-center gap-2 text-black">
