@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 
 function App() {
   const [text, setText] = useState("copy");
   const [length, SetLength] = useState(6);
+  const [number, setNumber] = useState(true);
+  const [symbols, setSymbols] = useState(true);
+
+  function password() {
+    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let num = "1234567890";
+    let Characters = "!@#$%&";
+    let pass = "";
+
+    // if()
+  }
 
   const copyText = () => {
     setText("copied");
@@ -53,7 +64,8 @@ function App() {
                   </span>
                   <input
                     type="checkbox"
-                    defaultChecked
+                    defaultChecked={symbols}
+                    // onChange={}
                     className="checkbox checkbox-warning"
                   />
                 </label>
@@ -65,7 +77,8 @@ function App() {
                   </span>
                   <input
                     type="checkbox"
-                    defaultChecked
+                    defaultChecked={number}
+                    // onChange={}
                     className="checkbox checkbox-warning"
                   />
                 </label>
