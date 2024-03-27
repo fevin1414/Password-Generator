@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 
 function App() {
-  const [text, setText] = useState("copy");
-  const [length, SetLength] = useState(12);
+  const [text, setText] = useState("Copy");
+  const [length, SetLength] = useState(8);
   const [number, setNumber] = useState(true);
   const [symbols, setSymbols] = useState(true);
   const [generatedPassword, setGenertedPassword] = useState();
+  const textRef = useRef();
 
-  function password() {
+  const password = useCallback(() => {
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let num = "1234567890";
     let Characters = "!@#$%&";
@@ -22,12 +23,15 @@ function App() {
       pass += str.charAt(alphabets);
     }
     setGenertedPassword(pass);
-  }
+  }, [length, number, symbols]);
   useEffect(() => {
     password();
+    setText("Copy");
   }, [length, symbols, number]);
   const copyText = () => {
     setText("copied");
+    textRef.current.select();
+    window.navigator.clipboard.writeText(generatedPassword);
   };
 
   return (
@@ -49,15 +53,22 @@ function App() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <input type="text" className="grow" value={generatedPassword} />
+                <input
+                  type="text"
+                  className="grow"
+                  value={generatedPassword}
+                  ref={textRef}
+                />
               </label>
-              <button className="btn btn-primary">{text}</button>
+              <button className="btn btn-primary" onClick={copyText}>
+                {text}
+              </button>
             </div>
             <div className="card-actions justify-end p-4">
               <div className="flex items-center justify-center gap-2 mt-2">
                 <input
                   type="range"
-                  min={number}
+                  min="8"
                   max="100"
                   value={length}
                   onChange={(e) => SetLength(e.target.value)}
