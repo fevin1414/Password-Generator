@@ -14,7 +14,10 @@ function App() {
     let Characters = "!@#$%&";
     let pass = "";
 
-    // if()
+    if (number) str += num;
+    if (symbols) str += Characters;
+
+    console.log("Password", str);
   }
 
   const copyText = () => {
@@ -42,7 +45,7 @@ function App() {
                 </svg>
                 <input type="password" className="grow" value="password" />
               </label>
-              <button className="btn btn-primary" onClick={copyText}>
+              <button className="btn btn-primary" onClick={password}>
                 {text}
               </button>
             </div>
@@ -65,7 +68,9 @@ function App() {
                   <input
                     type="checkbox"
                     defaultChecked={symbols}
-                    // onChange={}
+                    onChange={() => {
+                      setSymbols((prev) => !prev);
+                    }}
                     className="checkbox checkbox-warning"
                   />
                 </label>
@@ -78,7 +83,9 @@ function App() {
                   <input
                     type="checkbox"
                     defaultChecked={number}
-                    // onChange={}
+                    onChange={() => {
+                      setNumber((prev) => !prev);
+                    }}
                     className="checkbox checkbox-warning"
                   />
                 </label>
